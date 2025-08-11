@@ -1,4 +1,5 @@
 #small script to calculate quare roots using newtons method
+
 def raiz(numero):
     tolerancia = 1e-12
     if(numero<0):
@@ -11,4 +12,4 @@ def raiz(numero):
             chute = (chute+(numero/chute))/2
         return chute
 
-print(raiz(40))
+print(raiz(400))
