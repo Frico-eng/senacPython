@@ -1,0 +1,1 @@
+opcao = int(input("Escolha uma operação:\n1 - Soma\n2 - Subtração\n3 - multiplicação\n4 - divisão\n------------------\n"))
