@@ -28,4 +28,3 @@ while tentativas>0:
     else:
         print("Limite de tentativas, sua conta foi bloqueada")
         break
-    
