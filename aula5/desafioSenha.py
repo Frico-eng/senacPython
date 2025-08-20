@@ -1,3 +1,5 @@
+#Código de exemplo de acesso por senha com 3 tentativas
+
 #deprecated version using flag control
 # flag = True
 # tentativas = 3

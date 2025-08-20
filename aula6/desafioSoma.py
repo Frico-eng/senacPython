@@ -1,3 +1,5 @@
+#código de soma dos n primeiros números
+
 # metodo por soma dos elementos da progressão aritimética
 # soma_pa = (1+n)*n/2
 # print(f"soma por PA {soma_pa}")
