@@ -11,7 +11,7 @@ fora_intervalo = 0
 
 for i in range(1,numeros+1):
     n = int(input(f"Insira o {i}° número:"))
-    if 10<n<20:
+    if 10<=n<=20:
         dentro_intervalo+=1
     else:
         fora_intervalo+=1
