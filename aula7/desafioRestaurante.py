@@ -10,9 +10,9 @@ while True:
     print("2. Verificar ocupação")
     print("3. Registrar saída de clientes")
     print("4. Sair")
-    operador = int(input("Escolha uma opção: "))
+    operador = input("Escolha uma opção: ")
     match operador:
-        case 1:
+        case "1":
             clientes = int(input("Informe a quantidade de clientes que chegaram: "))
             if clientes+ capacidade_atual<=capacidade_maxima:
                 print(f"----------------------")
@@ -23,11 +23,11 @@ while True:
                 print(f"--------------------------------------------")
                 print("Não há mais vagas disponíveis,tente novamente")
                 print(f"--------------------------------------------")
-        case 2:
+        case "2":
             print(f"------------------------")
             print(f"Ocupação autal: {capacidade_atual}/{capacidade_maxima}")
             print(f"------------------------")
-        case 3:
+        case "3":
             clientes = int(input("Informe a quantidade de clientes que sairam: "))
             
             if capacidade_atual-clientes>0:
@@ -39,7 +39,7 @@ while True:
                 print(f"-----------------------------------------------------------------------")
                 print("impossível remover mais clientes do que estão presentes, tente novamente")
                 print(f"-----------------------------------------------------------------------")
-        case 4:
+        case "4":
             break
         case _:
             print("Opção invalida, tente novamente")
