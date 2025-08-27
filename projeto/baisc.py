@@ -1,45 +1,57 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import font
 
 root = tk.Tk()
-root.title("Tela Inicial")
-root.geometry("500x500")
-root.configure(bg="#f5f5f5")
+root.geometry("400x400")
+root.configure(bg="#f4f6f9")
 
-# estilo geral
-style = ttk.Style()
-style.configure("Main.TButton", font=("Segoe UI", 12), padding=10)
+title_font = font.Font(family="Segoe UI", size=14, weight="bold")
+button_font = font.Font(family="Segoe UI", size=11)
+link_font = font.Font(family="Segoe UI", size=8, underline=True)
 
-# estilo exclusivo só para o frame de registro
-style.configure("Reg.TButton", font=("Segoe UI", 10), padding=(5,15))
+# frame principal de compra
 
-frame = ttk.Frame(root, padding=30)
-frame.pack(expand=True)
+# frame do usuários
+frame_user = tk.Frame(root, bg="#f4f6f9")
+frame_user.pack(expand=True, pady=50)  # expands vertically & horizontally, centers
+botao_compra = tk.Button(frame_user,
+                        text="Comprar agora",
+                        font=button_font,
+                        bg="#0078D7",
+                        fg="white",
+                        activebackground="#005A9E",
+                        pady=15,
+                        relief="flat", 
+                        cursor="hand2")
+botao_compra.pack(pady=15)
+botao_user_login = tk.Button(frame_user,
+                            text="Login",
+                            font=button_font,
+                            width=12,
+                            bg="#e1e5ea",
+                            relief="flat",
+                            cursor="hand2")
+botao_user_login.pack(pady=15)
+botao_user_register = tk.Button(frame_user,
+                                text="Registro",
+                                font=button_font,
+                                width=12,
+                                bg="#e1e5ea",
+                                relief="flat",
+                                cursor="hand2")
+botao_user_register.pack(pady=15)
+# frame do funcionário
+frame_func = tk.Frame(root, bg="#f4f6f9")
+frame_func.pack(expand=True, fill="both", pady=10)
+link_func = tk.Label(
+    frame_func,
+    text="Funcionários",
+    font=link_font,
+    fg="blue",
+    bg="#f4f6f9",
+    cursor="hand2"
+)
+link_func.pack(side="bottom")
 
-# botões principais
-divider = ttk.Label(frame, text="────────  Entrada  ────────", foreground="gray")
-divider.pack(pady=15)
-btn_compra = ttk.Button(frame, text="🛒  Compra Rápida", style="Main.TButton")
-btn_compra.pack(fill="x", pady=8)
-
-btn_login = ttk.Button(frame, text="🔑  Login", style="Main.TButton")
-btn_login.pack(fill="x", pady=8)
-
-btn_login_adm = ttk.Button(frame, text="👨‍💼  Login Adm", style="Main.TButton")
-btn_login_adm.pack(fill="x", pady=8)
-
-divider = ttk.Label(frame, text="────────  Registro  ────────", foreground="gray")
-divider.pack(pady=15)
-
-# frame de registro
-reg_frame = ttk.Frame(frame)
-reg_frame.pack()
-
-# botões de registro (usam estilo exclusivo Reg.TButton)
-btn_reg = ttk.Button(reg_frame, text="👤 Cadastro de usuário", style="Reg.TButton")
-btn_reg.pack(side="left", padx=5, ipadx=10)
-
-btn_staff_reg = ttk.Button(reg_frame, text="🛠️ Cadastrar funcionário", style="Reg.TButton")
-btn_staff_reg.pack(side="left", padx=5, ipadx=10)
 
 root.mainloop()
