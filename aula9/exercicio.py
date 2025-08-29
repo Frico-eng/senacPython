@@ -51,21 +51,21 @@ def media(soma_notas,num_notas):
     return media_notas
 def maior_nota(maior, nota):
     if nota > maior:
-    return nota
+        return nota
     return maior
 def menor_nota(menor, nota):
     if nota < menor:
-    return nota
+        return nota
     return menor
 
 
 nota = float(input("Digite uma nota: "))
 while nota>=0:
-soma_notas = soma_notas+nota
-num_notas = num_notas+1
-num_maior=maior_nota(num_maior, nota)
-num_menor=menor_nota(num_menor, nota)
-nota = float(input("Digite uma nota: "))
+    soma_notas = soma_notas+nota
+    num_notas = num_notas+1
+    num_maior=maior_nota(num_maior, nota)
+    num_menor=menor_nota(num_menor, nota)
+    nota = float(input("Digite uma nota: "))
 
 media_notas = media(soma_notas,num_notas)
 print(f"A média é {media_notas}")
