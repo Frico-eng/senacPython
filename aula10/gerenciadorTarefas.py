@@ -28,10 +28,10 @@ def operacoes(operador, lista):
     """Executa a operação escolhida pelo usuário"""
     match operador:
         case "1":
-            tarefa = input("Insira uma tarefa para cadastro: ").strip()
+            tarefa = input("Insira uma tarefa para cadastro: ")
             inserir(tarefa, lista)
         case "2":
-            tarefa = input("Insira uma tarefa para remoção: ").strip()
+            tarefa = input("Insira uma tarefa para remoção: ")
             remover(tarefa, lista)
         case "3":
             listar(lista)
@@ -41,18 +41,20 @@ def operacoes(operador, lista):
             print("Opção inválida, tente novamente")
     return False
 
-
 def menu():
+    print("\n=== Gerenciador de Tarefas ===")
+    print("1 - Adicionar tarefa")
+    print("2 - Remover tarefa")
+    print("3 - Listar tarefas")
+    print("4 - Finalizar programa")
+
+def main():
     tarefas = []
     while True:
-        print("\n=== Gerenciador de Tarefas ===")
-        print("1 - Adicionar tarefa")
-        print("2 - Remover tarefa")
-        print("3 - Listar tarefas")
-        print("4 - Finalizar programa")
+        menu()
         operador = input("Insira uma opção: ").strip()
         if operacoes(operador, tarefas):
             print("Programa finalizado")
             break
 
-menu()
+main()
