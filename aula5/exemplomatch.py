@@ -1,3 +1,4 @@
+#Código de exemplo do match case
 opcao = int(input("Escolha uma operação:\n1 - Soma\n2 - Subtração\n3 - multiplicação\n4 - divisão\n------------------\n"))
 num1 = float(input("\nnInsira o primeiro número:"))
 num2 = float(input("\nInsira o segundo número:"))

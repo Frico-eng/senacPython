@@ -3,6 +3,9 @@ import random
 def gerar_num():
     return random.randint(1,10)
 
+#def verificar_tentativas(numero,chute):
+    
+
 def jogo_advinha():  
     tentativas = 1
     numero = gerar_num()

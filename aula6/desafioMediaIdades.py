@@ -1,9 +1,10 @@
+#código para calcular a média de idades com condição de parada
 soma = 0
 contador = 0
 
 while True:
     idade = int(input("Insira a sua idade: "))
-    if idade < 0:  # stop input on negative number
+    if idade < 0:
         break
     soma += idade
     contador += 1
