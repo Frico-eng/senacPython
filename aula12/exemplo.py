@@ -26,10 +26,7 @@ label_title = ctk.CTkLabel(master=frame,text= "Bem vindo",font = ("Arial",20,"bo
 label_title.pack(pady = (0,10))
 label_subtitle = ctk.CTkLabel(master=frame,text= "Faça login para continuar",font = ("Arial",13))
 label_subtitle.pack(pady = (0,10))
-
-# usuári
-
-
+# usuário
 entry_user = ctk.CTkEntry(master=frame,placeholder_text="Usuário",width=250,height=40,corner_radius=10)
 entry_user.pack(pady=10)
 
