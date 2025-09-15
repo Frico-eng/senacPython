@@ -39,7 +39,7 @@ def abrir_cadastro(root):
 
     # Botões frame
     botoes_frame = ctk.CTkFrame(frame, fg_color="transparent")
-    botoes_frame.pack(pady=20)
+    botoes_frame.pack(pady=80)
     
     # Botão de registrar
     ctk.CTkButton(botoes_frame, text="🎟 Registrar", command=registrar,

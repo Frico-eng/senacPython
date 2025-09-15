@@ -12,7 +12,7 @@ def criar_tela_login(root, voltar_callback=None):
     
     # Título principal
     titulo = ctk.CTkLabel(frame, text="🎬 CinePlus - Login", font=("Arial", 24, "bold"), text_color="white")
-    titulo.pack(pady=(30, 10))
+    titulo.pack(pady=(0, 10))
 
     # Subtítulo
     subtitulo = ctk.CTkLabel(frame, text="Faça seu login para acessar", font=("Arial", 14), text_color="lightgray")
