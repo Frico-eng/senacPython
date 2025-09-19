@@ -69,7 +69,7 @@ def criar_tela_assentos_com_pagamento(filme, data, horario):
     def avancar_para_pagamento():
         mostrar_pagamento(filme, horario, qtd_ingressos=3, preco_unit=32.50)
 
-    criar_botao(frame, "Confirmar Ingressos", avancar_para_pagamento, width=200).pack(pady=20)
+    criar_botao(frame, "Avançar", avancar_para_pagamento, width=200).pack(pady=20)
     register_screen("assentos", frame)
     return frame
 

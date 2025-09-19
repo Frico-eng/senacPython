@@ -1,5 +1,5 @@
 import customtkinter as ctk
-
+# --- Botão customizado ---
 def criar_tela_assentos(root, voltar_callback=None, avancar_callback=None):
     """
     Cria e retorna o frame de seleção de assentos
@@ -14,7 +14,9 @@ def criar_tela_assentos(root, voltar_callback=None, avancar_callback=None):
     COR_TEXTO       = "#ECF0F1"
     COR_FUNDO       = "#1E1E1E"
     COR_PANEL       = "#2C3E50"
+    
 
+    
     # Frame principal
     frame = ctk.CTkFrame(root, width=900, height=650, fg_color=COR_FUNDO)
     
@@ -92,10 +94,10 @@ def criar_tela_assentos(root, voltar_callback=None, avancar_callback=None):
         selecionados.clear()
         atualizar_resumo()
 
-    ctk.CTkButton(frame_botoes, text="Confirmar", width=150, height=40, command=confirmar, fg_color="#F6C148").pack(side="left", padx=10)
+    ctk.CTkButton(frame_botoes, text="Confirmar",text_color="#000000", width=150, height=40, font=("Arial", 14, "bold"), command=confirmar, fg_color="#F6C148",hover_color="#E2952D",border_color="#E2952D", corner_radius=15).pack(side="left", padx=10)
     if avancar_callback:
-        ctk.CTkButton(frame_botoes, text="Avançar", width=150, height=40, command=avancar_callback, fg_color="#FFA94D").pack(side="left", padx=10)
+        ctk.CTkButton(frame_botoes, text="Avançar",text_color="#000000", font=("Arial", 14, "bold"), width=150, height=40, command=avancar_callback, fg_color="#F6C148",hover_color="#E2952D",border_color="#E2952D", corner_radius=15).pack(side="left", padx=10)
     if voltar_callback:
-        ctk.CTkButton(frame_botoes, text="Voltar", width=150, height=40, command=voltar_callback, fg_color="#FFA94D").pack(side="left", padx=10)
+        ctk.CTkButton(frame_botoes, text="Voltar",text_color="#000000", font=("Arial", 14, "bold"), width=150, height=40, command=voltar_callback, fg_color="#F6C148",hover_color="#E2952D",border_color="#E2952D", corner_radius=15).pack(side="left", padx=10)
 
     return frame
