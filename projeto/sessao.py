@@ -17,10 +17,13 @@ def criar_tela_sessoes(parent, filme_selecionado, callback_voltar, callback_avan
         text="← Voltar", 
         command=callback_voltar,
         width=100,
-        height=30,
+        height=40,
+        corner_radius=15,
+        text_color="#000000",
         fg_color="#F6C148",
         hover_color="#E2952D",
-        text_color="#1C2732"
+        border_color="#E2952D",
+        font=("Arial", 14, "bold")
     )
     btn_voltar.pack(side="left", padx=20)
     
@@ -189,15 +192,16 @@ def criar_tela_sessoes(parent, filme_selecionado, callback_voltar, callback_avan
         content_frame, 
         text="Selecionar Assentos →", 
         command=avancar_para_assentos,
-        width=200,
+        width=150,
         height=40,
-        fg_color="#4CAF50",
-        hover_color="#45a049",
-        text_color="white",
+        text_color="#000000",
+        fg_color="#F6C148",
+        hover_color="#E2952D",
+        border_color="#E2952D",
+        corner_radius=15,
         font=("Arial", 14, "bold")
     )
     btn_avancar.pack(pady=30)
-    
     return frame
 
 # Função para verificar e fechar sessões expiradas (usar em background)

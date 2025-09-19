@@ -144,7 +144,9 @@ def mostrar_catalogo_filmes(parent):
         height=40,
         fg_color="#4CAF50",  # Verde
         hover_color="#45a049",
-        text_color="white"
+        text_color="#FFFFFF",
+        corner_radius=15,
+        font=("Arial", 14, "bold")
     )
     btn_confirmar.pack(side="right", padx=(0, 10))
 
@@ -155,9 +157,12 @@ def mostrar_catalogo_filmes(parent):
         command=lambda: None,  # Será configurado pelo main
         width=100,
         height=40,
+        text_color="#000000",
         fg_color="#F6C148",
         hover_color="#E2952D",
-        text_color="#1C2732"
+        border_color="#E2952D",
+        corner_radius=15,
+        font=("Arial", 14, "bold")
     )
     btn_voltar.pack(side="right")
 

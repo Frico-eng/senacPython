@@ -50,5 +50,5 @@ def mostrar_tela_agradecimento(parent, voltar_callback=None):
         fg_color="#FFA94D",
         hover_color="#FFB84D",
         text_color="#22313F",
-        font=("Segoe UI", 12, "bold")
+        font=("Arial", 14, "bold")
     ).pack(pady=25)

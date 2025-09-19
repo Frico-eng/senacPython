@@ -85,10 +85,10 @@ def mostrar_confirmacao_pagamento(parent, filme, horario, qtd_ingressos, preco_u
         parent,
         text="Finalizar",
         command=lambda: show_screen("thank_you"),
-        font=("Arial", 12, "bold"),
+        font=("Arial", 14, "bold"),
         fg_color=COR_DESTAQUE,
         hover_color="#ffa94d",
         text_color=COR_FUNDO,
         height=35,
-        width=120
+        width=120,
     ).pack(pady=15)
