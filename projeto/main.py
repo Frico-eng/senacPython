@@ -1,149 +1,165 @@
 import customtkinter as ctk
-from PIL import Image
-import os
+from utilidades.config import *
+from utilidades.ui_helpers import carregar_fundo, carregar_logo, carregar_icone, criar_botao, criar_footer
+from telas.auth import fazer_login
+from telas.abrir_cadastro import abrir_cadastro
+from telas.seletor_assento import criar_tela_assentos
+from telas.catalogo import mostrar_catalogo_filmes
+from telas.sessao import criar_tela_sessoes
+from telas.pagamentodocinema import mostrar_confirmacao_pagamento
+from telas.agradecimento import mostrar_tela_agradecimento  # Updated to accept callback
 
-from abrir_cadastro import abrir_cadastro
-from seletor_assento import criar_tela_assentos
-from login import criar_tela_login
+from PIL import Image, ImageTk
 
-# --- Configuração inicial ---
+# --- App setup ---
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 
-app = ctk.CTk(fg_color="#1E1E1E")
-screen_width = app.winfo_screenwidth()
-screen_height = app.winfo_screenheight()
-
-# Ajustar janela para ocupar toda a tela (sem remover a barra do Windows)
+app = ctk.CTk(fg_color=APP_BG)
+screen_width, screen_height = app.winfo_screenwidth(), app.winfo_screenheight()
 app.geometry(f"{screen_width+20}x{screen_height-80}-10+0")
 app.title("menu - Projeto Integrador")
 
-# --- Fundo com imagem ---
-def carregar_fundo(frame, path):
-    if os.path.exists(path):
-        original_image = Image.open(path)
+# --- Screen registry ---
+screens = {}
+footer_main = None
+footer_secondary = None
 
-        def atualizar_fundo(event):
-            largura, altura = event.width, event.height
-            img_resized = original_image.resize((largura, altura))
-            fundo_ctk = ctk.CTkImage(img_resized, size=(largura, altura))
-            fundo_label.configure(image=fundo_ctk)
-            fundo_label.image = fundo_ctk  # evitar GC
+def register_screen(name, frame):
+    screens[name] = frame
 
-        fundo_label = ctk.CTkLabel(frame, text="", fg_color="transparent")
-        fundo_label.place(relx=0, rely=0, relwidth=1, relheight=1)
-        frame.bind("<Configure>", atualizar_fundo)
-        return fundo_label
-    else:
-        return ctk.CTkLabel(frame, text="CinePlus", font=("Arial", 40, "bold"), fg_color="transparent")
+def show_screen(name):
+    for frame in screens.values():
+        frame.place_forget()
 
-# --- Frame inicial ---
-tela_inicial = ctk.CTkFrame(app, fg_color="transparent")
-tela_inicial.place(relx=0, rely=0, relwidth=1, relheight=1)
+    frame = screens.get(name)
+    if frame:
+        if name == "main":
+            frame.place(relx=0, rely=0, relwidth=1, relheight=1)
+        else:
+            frame.place(relx=0.5, rely=0.5, anchor="center")
 
-fundo_label = carregar_fundo(tela_inicial, "left_banner.jpg")
+    # Footer handling
+    global footer_main, footer_secondary
+    if footer_main and footer_secondary:
+        if name == "main":
+            footer_secondary.place_forget()
+            footer_main.place(relx=0, rely=1, relwidth=1, anchor="sw")
+        else:
+            footer_main.place_forget()
+            footer_secondary.place(relx=0.5, rely=1, relwidth=1, anchor="s")
 
-# --- Área de botões (flutuante) ---
-right_frame = ctk.CTkFrame(master=tela_inicial, fg_color="transparent")
-right_frame.place(relx=0.65, rely=0, relwidth=0.25, relheight=1)
-
-# --- Logo ---
-def carregar_logo(master):
-    if os.path.exists("logo_light.png") and os.path.exists("logo_dark.png"):
-        logo_image = ctk.CTkImage(
-            light_image=Image.open("logo_light.png"),
-            dark_image=Image.open("logo_dark.png"),
-            size=(200, 200)
-        )
-        return ctk.CTkLabel(master=master, image=logo_image, text="", fg_color="transparent")
-    return ctk.CTkLabel(master=master, text="CinePlus", font=("Arial", 24, "bold"), fg_color="transparent")
-
-logo_label = carregar_logo(right_frame)
-logo_label.pack(pady=(30, 20))
-
-# --- Ícones ---
-def carregar_icone(path, size=(30, 30)):
-    return ctk.CTkImage(Image.open(path), size=size) if os.path.exists(path) else None
-
-icone_user = carregar_icone("icone_user.png")
-icone_regist = carregar_icone("icone_regist.png")
-icone_compra = carregar_icone("icone_compra.png")
-
-# --- Criar telas secundárias ---
-login_frame = criar_tela_login(app, lambda: mostrar_frame(None))
-cadastro_frame, btn_voltar_cadastro = abrir_cadastro(app)
-assentos_frame = criar_tela_assentos(app, lambda: mostrar_frame(None))
-btn_voltar_cadastro.configure(command=lambda: mostrar_frame(None))
-
-# --- Função para criar botões ---
-def criar_botao(master, texto, comando=None, icone=None):
-    return ctk.CTkButton(
-        master=master,
-        text=texto,
-        image=icone,
-        font=("Arial", 18, "bold"),
-        width=250,
-        height=45,
-        corner_radius=15,
-        fg_color="#F6C148",
-        hover_color="#E2952D",
-        border_width=2,
-        border_color="#E2952D",
-        text_color="#1C2732",
-        command=comando
-    )
-
-# --- Função para trocar frames ---
-def mostrar_frame(frame_destino):
-    # Esconde todos os frames filhos de app exceto footer
-    for widget in app.winfo_children():
-        if isinstance(widget, ctk.CTkFrame) and widget not in (footer,):
-            widget.place_forget()
-    # Mostrar o frame destino ou voltar para tela inicial
-    if frame_destino:
-        frame_destino.place(relx=0.5, rely=0.5, anchor="center")
-    else:
-        tela_inicial.place(relx=0, rely=0, relwidth=1, relheight=1)
-
-# --- Botões principais ---
-criar_botao(right_frame, "Comprar Agora", icone=icone_compra).pack(pady=15)
-criar_botao(right_frame, "Log-In", lambda: mostrar_frame(login_frame), icone_user).pack(pady=15)
-criar_botao(right_frame, "Registre-Se", lambda: mostrar_frame(cadastro_frame), icone_regist).pack(pady=15)
-criar_botao(right_frame, "Selecionar Assentos (teste)", lambda: mostrar_frame(assentos_frame)).pack(pady=15)
-
-# --- Footer tela inicial ---
-footer_inicial = ctk.CTkFrame(master=app, height=40, corner_radius=0, fg_color="#121212")
-footer_inicial.place(relx=0, rely=1, relwidth=1, anchor="sw")
-
-# Left e right
-footer_left = ctk.CTkFrame(footer_inicial, fg_color="transparent")
-footer_left.pack(side="left", padx=20, pady=5)
-ctk.CTkLabel(footer_left, text="Contato | Sugestão", text_color="gray").pack()
-
-footer_right = ctk.CTkFrame(footer_inicial, fg_color="transparent")
-footer_right.pack(side="right", padx=20, pady=5)
-ctk.CTkLabel(footer_right, text="CinePlus © 2025", text_color="gray").pack()
-
-# --- Footer das outras telas ---
-footer_secundario = ctk.CTkFrame(master=app, height=40, corner_radius=0, fg_color="#121212")
-ctk.CTkLabel(footer_secundario, text="CinePlus © 2025", text_color="gray").pack(pady=8)
-# --- Função para trocar frames ---
-def mostrar_frame(frame_destino):
-    # Esconde todos os frames filhos de app exceto footers
-    for widget in app.winfo_children():
-        if isinstance(widget, ctk.CTkFrame) and widget not in (footer_inicial, footer_secundario):
-            widget.place_forget()
+# --- Payment screen helper ---
+def mostrar_pagamento(filme, horario, qtd_ingressos=3, preco_unit=32.50):
+    frame = screens["pagamento"]
+    mostrar_confirmacao_pagamento(frame, filme, horario, qtd_ingressos, preco_unit)
     
-    # Mostrar frame destino ou voltar para inicial
-    if frame_destino:
-        frame_destino.place(relx=0.5, rely=0.5, anchor="center")
-        footer_inicial.place_forget()
-        footer_secundario.place(relx=0.5, rely=1, relwidth=1, anchor="s")
-    else:
-        tela_inicial.place(relx=0, rely=0, relwidth=1, relheight=1)
-        footer_secundario.place_forget()
-        footer_inicial.place(relx=0, rely=1, relwidth=1, anchor="sw")
+    # Override Finalizar button to show Thank You
+    for widget in frame.winfo_children():
+        if isinstance(widget, ctk.CTkButton) and widget.cget("text") == "Finalizar":
+            widget.configure(command=lambda: [
+                mostrar_tela_agradecimento(screens["thank_you"], voltar_callback=lambda: show_screen("main")),
+                show_screen("thank_you")
+            ])
+    show_screen("pagamento")
 
+# --- Seats screen with navigation to payment ---
+def criar_tela_assentos_com_pagamento(filme, data, horario):
+    frame = criar_tela_assentos(app, lambda: show_screen("sessoes"))
 
+    def avancar_para_pagamento():
+        mostrar_pagamento(filme, horario, qtd_ingressos=3, preco_unit=32.50)
 
+    criar_botao(frame, "Avançar", avancar_para_pagamento, width=200).pack(pady=20)
+    register_screen("assentos", frame)
+    return frame
+
+# --- Sessions screen ---
+def criar_sessoes(filme):
+    def on_sessao_selecionada(filme, data, horario):
+        criar_tela_assentos_com_pagamento(filme, data, horario)
+        show_screen("assentos")
+
+    frame = criar_tela_sessoes(
+        app,
+        filme,
+        lambda: show_screen("catalogo"),
+        on_sessao_selecionada
+    )
+    register_screen("sessoes", frame)
+    show_screen("sessoes")
+    return frame
+
+# --- Initialize all screens ---
+def inicializar_telas():
+    global footer_main, footer_secondary
+
+    # --- Main screen ---
+    tela_inicial = ctk.CTkFrame(app, fg_color="transparent")
+    carregar_fundo(tela_inicial, BANNER_PATH)
+
+    right_frame = ctk.CTkFrame(tela_inicial, fg_color="transparent")
+    right_frame.place(relx=0.65, rely=0, relwidth=0.25, relheight=1)
+
+    carregar_logo(right_frame, LOGO_PATH).pack(pady=(30, 20))
+
+    icone_user = carregar_icone(ICON_USER_PATH)
+    icone_regist = carregar_icone(ICON_REGIST_PATH)
+    icone_compra = carregar_icone(ICON_COMPRA_PATH)
+
+    # Login
+    login_container = ctk.CTkFrame(right_frame, fg_color="transparent")
+    login_container.pack(pady=(0, 15))
+    email_entry = ctk.CTkEntry(login_container, placeholder_text="Seu email", width=300, height=35)
+    email_entry.pack(pady=5)
+    senha_entry = ctk.CTkEntry(login_container, placeholder_text="Sua senha", show="•", width=300, height=35)
+    senha_entry.pack(pady=5)
+    resultado_label = ctk.CTkLabel(login_container, text="", font=("Arial", 12))
+    resultado_label.pack(pady=5)
+
+    botoes_frame = ctk.CTkFrame(login_container, fg_color="transparent")
+    botoes_frame.pack(pady=5)
+
+    criar_botao(botoes_frame, "Entrar",
+                lambda: fazer_login(email_entry, senha_entry, resultado_label),
+                icone_user).pack(side="left", padx=5)
+    criar_botao(botoes_frame, "Cadastro",
+                lambda: show_screen("cadastro"),
+                icone_regist).pack(side="left", padx=5)
+
+    # Extra buttons
+    criar_botao(right_frame, "Filmes em cartaz", lambda: show_screen("catalogo"), icone_compra, width=250).pack(pady=15)
+
+    register_screen("main", tela_inicial)
+
+    # --- Cadastro screen ---
+    cadastro_frame, btn_voltar_cadastro = abrir_cadastro(app)
+    btn_voltar_cadastro.configure(command=lambda: show_screen("main"))
+    register_screen("cadastro", cadastro_frame)
+
+    # --- Catalog screen ---
+    catalogo_frame, btn_voltar_catalogo, btn_confirmar_catalogo = mostrar_catalogo_filmes(app)
+    btn_voltar_catalogo.configure(command=lambda: show_screen("main"))
+
+    def on_confirmar_catalogo():
+        filme_selecionado = {"titulo": "Filme Exemplo", "descricao": "Descrição", "imagem": ""}
+        criar_sessoes(filme_selecionado)
+
+    btn_confirmar_catalogo.configure(command=on_confirmar_catalogo)
+    register_screen("catalogo", catalogo_frame)
+
+    # --- Payment and Thank You screens ---
+    pagamento_frame = ctk.CTkFrame(app, fg_color="transparent")
+    register_screen("pagamento", pagamento_frame)
+
+    thank_you_frame = ctk.CTkFrame(app, fg_color="transparent")
+    register_screen("thank_you", thank_you_frame)
+    mostrar_tela_agradecimento(thank_you_frame, voltar_callback=lambda: show_screen("main"))
+
+    # --- Footers ---
+    footer_main, footer_secondary = criar_footer(app)
+
+# --- Run app ---
+inicializar_telas()
+show_screen("main")
 app.mainloop()
